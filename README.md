@@ -1,21 +1,21 @@
 # Blinking LED with Micropython and ESP32
 
-As prerequisites you might need to follow the instructions
-on how to setup Pipenv and how to setup Micropython on ESP32.
-Please take a look at
+This proyect makes a simple and a RGB LED blink or fade using Micropython on a ESP32.
+
+If you want to setup a Python 3 virtual environment or your ESP32 doesn't have Micropython flashed yet, take a look at
 [https://github.com/danielwohlgemuth/setup-micropython-esp32](https://github.com/danielwohlgemuth/setup-micropython-esp32).
 
 ## Install
 
-Install the dependencies listed in the Pipfile.
+Install the dependencies listed inside the `requirements.txt` file.
 
 ```bash
-pipenv install
+pip install -r requirements.txt
 ```
 
 ```bash
-pipenv run ampy --help
-pipenv run rshell --help
+ampy --help
+rshell --help
 ```
 
 ## Pinout
@@ -24,7 +24,7 @@ The pinout of my ESP32 looks like this.
 
 ![ESP32 Pinout](images/ESP32_pinout.jpg)
 
-Image from [http://forum.fritzing.org/t/esp32s-hiletgo-dev-boad-with-pinout-template/5357](http://forum.fritzing.org/t/esp32s-hiletgo-dev-boad-with-pinout-template/5357)
+> Image from [http://forum.fritzing.org/t/esp32s-hiletgo-dev-boad-with-pinout-template/5357](http://forum.fritzing.org/t/esp32s-hiletgo-dev-boad-with-pinout-template/5357)
 
 You can find the pinout for other ESP32's by searching for **pinout**
 on [http://esp32.net/](http://esp32.net/) and follow those links.
@@ -49,18 +49,18 @@ You could also use two 220Ω resistors in series/sequentially to add up to 440Ω
 ### Connect to interactive shell
 
 ```bash
-pipenv run rshell --port /dev/ttyUSB0 repl
+rshell --port /dev/ttyUSB0 repl
 ```
 
 You can exit the shell by pressing <kbd>CTRL</kbd> + <kbd>X</kbd>.
 
 If you can't reconnect afterwards, you might need to restart your ESP32
-by pressing the EN button.
+by pressing the `EN` button.
 
 ### Try manually
 
 Once you are connected to the interactive shell,
-try these commands to turn the led on and off.
+try these commands to turn the LED on and off.
 
 ```python
 import machine
@@ -71,7 +71,7 @@ led.value(1)
 led.value(0)
 ```
 
-If the led doesn't turn on, it might just be connected the wrong way around.
+If the LED doesn't turn on, it might just be connected the wrong way around.
 Connect the ground pin to the longer leg and pin 23 to the other leg
 and try again.
 
@@ -82,20 +82,20 @@ upload the examples and execute them after a restart.
 The uploaded file has to be called `main.py`
 and gets executed when the ESP32 starts up.
 
-[blink.py](blink.py) blinks the led once long and twice short.
+[blink.py](blink.py) blinks the LED once long and twice short.
 
 ```bash
 cp blink.py main.py
-pipenv run ampy --port /dev/ttyUSB0 put main.py
+ampy --port /dev/ttyUSB0 put main.py
 # Restart the ESP32 to execute it by pressing the EN button
 ```
 
-[fade.py](fade.py) fades the led on and off
+[fade.py](fade.py) fades the LED on and off
 according to a sine wave using pulse width modulation (PWM).
 
 ```bash
 cp fade.py main.py
-pipenv run ampy --port /dev/ttyUSB0 put main.py
+ampy --port /dev/ttyUSB0 put main.py
 ```
 
 ## RGB LED
@@ -106,22 +106,22 @@ pipenv run ampy --port /dev/ttyUSB0 put main.py
 
 Connect the ground pin to the longer leg.
 Connect pin 23, 22, and 21 with the other legs,
-with a 470Ω resistors between each pin and the led.
+with a 470Ω resistors between each pin and the LED.
 
-[fade-rgb.py](fade-rgb.py) fades the rgb led using three sine waves,
+[fade-rgb.py](fade-rgb.py) fades the RGB LED using three sine waves,
 with the start of each sine wave shifted from the others
 to make the three color light up at different times.
 
 ```bash
 cp fade-rgb.py main.py
-pipenv run ampy --port /dev/ttyUSB0 put main.py
+ampy --port /dev/ttyUSB0 put main.py
 ```
 
-[fade-hsv.py](fade-hsv.py) fade the rgb led by converting
+[fade-hsv.py](fade-hsv.py) fade the RGB LED by converting
 from the HSV (Hue, Saturation, Value) color space to RGB
 to have three times in a cycle where only one color is lit up.
 
 ```bash
 cp fade-hsv.py main.py
-pipenv run ampy --port /dev/ttyUSB0 put main.py
+ampy --port /dev/ttyUSB0 put main.py
 ```
